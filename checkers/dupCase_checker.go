@@ -34,37 +34,10 @@ type dupCaseChecker struct {
 	astSet lintutil.AstSet
 }
 
-func (c *dupCaseChecker) VisitStmt(stmt ast.Stmt) {
-	switch stmt := stmt.(type) {
-	case *ast.SwitchStmt:
-		c.checkSwitch(stmt)
-	case *ast.SelectStmt:
-		c.checkSelect(stmt)
-	}
-}
+func (c *dupCaseChecker) VisitStmt(stmt ast.Stmt) { _ = "STUB: not implemented"; return }
 
-func (c *dupCaseChecker) checkSwitch(stmt *ast.SwitchStmt) {
-	c.astSet.Clear()
-	for i := range stmt.Body.List {
-		cc := stmt.Body.List[i].(*ast.CaseClause)
-		for _, x := range cc.List {
-			if !c.astSet.Insert(x) {
-				c.warn(x)
-			}
-		}
-	}
-}
+func (c *dupCaseChecker) checkSwitch(stmt *ast.SwitchStmt) { _ = "STUB: not implemented"; return }
 
-func (c *dupCaseChecker) checkSelect(stmt *ast.SelectStmt) {
-	c.astSet.Clear()
-	for i := range stmt.Body.List {
-		x := stmt.Body.List[i].(*ast.CommClause).Comm
-		if !c.astSet.Insert(x) {
-			c.warn(x)
-		}
-	}
-}
+func (c *dupCaseChecker) checkSelect(stmt *ast.SelectStmt) { _ = "STUB: not implemented"; return }
 
-func (c *dupCaseChecker) warn(cause ast.Node) {
-	c.ctx.Warn(cause, "'case %s' is duplicated", cause)
-}
+func (c *dupCaseChecker) warn(cause ast.Node) { _ = "STUB: not implemented"; return }

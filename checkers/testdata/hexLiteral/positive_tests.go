@@ -2,11 +2,11 @@ package checker_test
 
 func bad0X() {
 	/*! prefer 0x over 0X, s/0X12/0x12/ */
-	_ = 0X12
+	_ = 0x12
 	/*! prefer 0x over 0X, s/0XEE/0xEE/ */
-	_ = 0XEE
+	_ = 0xEE
 	/*! prefer 0x over 0X, s/0Xaa/0xaa/ */
-	_ = 0Xaa
+	_ = 0xaa
 }
 
 func mixedLetterDigits() {

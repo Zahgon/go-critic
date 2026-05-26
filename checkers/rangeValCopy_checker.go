@@ -52,25 +52,10 @@ type rangeValCopyChecker struct {
 }
 
 func (c *rangeValCopyChecker) EnterFunc(fn *ast.FuncDecl) bool {
-	return fn.Body != nil &&
-		!(c.skipTestFuncs && isUnitTestFunc(c.ctx, fn))
+	_ = "STUB: not implemented"
+	return false
 }
 
-func (c *rangeValCopyChecker) VisitStmt(stmt ast.Stmt) {
-	rng, ok := stmt.(*ast.RangeStmt)
-	if !ok || rng.Value == nil {
-		return
-	}
-	typ := c.ctx.TypeOf(rng.Value)
-	if typ == nil {
-		return
-	}
-	size, ok := c.ctx.SizeOf(typ)
-	if ok && size >= c.sizeThreshold {
-		c.warn(rng, size)
-	}
-}
+func (c *rangeValCopyChecker) VisitStmt(stmt ast.Stmt) { _ = "STUB: not implemented"; return }
 
-func (c *rangeValCopyChecker) warn(n ast.Node, size int64) {
-	c.ctx.Warn(n, "each iteration copies %d bytes (consider pointers or indexing)", size)
-}
+func (c *rangeValCopyChecker) warn(n ast.Node, size int64) { _ = "STUB: not implemented"; return }

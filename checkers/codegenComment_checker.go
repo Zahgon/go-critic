@@ -43,19 +43,6 @@ type codegenCommentChecker struct {
 	badCommentRE *regexp.Regexp
 }
 
-func (c *codegenCommentChecker) WalkFile(f *ast.File) {
-	if f.Doc == nil {
-		return
-	}
+func (c *codegenCommentChecker) WalkFile(f *ast.File) { _ = "STUB: not implemented"; return }
 
-	for _, comment := range f.Doc.List {
-		if c.badCommentRE.MatchString(comment.Text) {
-			c.warn(comment)
-			return
-		}
-	}
-}
-
-func (c *codegenCommentChecker) warn(cause ast.Node) {
-	c.ctx.Warn(cause, "comment should match `Code generated .* DO NOT EDIT.` regexp")
-}
+func (c *codegenCommentChecker) warn(cause ast.Node) { _ = "STUB: not implemented"; return }

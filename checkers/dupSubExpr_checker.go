@@ -3,13 +3,9 @@ package checkers
 import (
 	"go/ast"
 	"go/token"
-	"go/types"
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
-
-	"github.com/go-toolsmith/astequal"
-	"github.com/go-toolsmith/typep"
 )
 
 func init() {
@@ -75,29 +71,16 @@ type dupSubExprChecker struct {
 	floatOpsSet map[token.Token]bool
 }
 
-func (c *dupSubExprChecker) VisitExpr(expr ast.Expr) {
-	if expr, ok := expr.(*ast.BinaryExpr); ok {
-		c.checkBinaryExpr(expr)
-	}
-}
+func (c *dupSubExprChecker) VisitExpr(expr ast.Expr) { _ = "STUB: not implemented"; return }
 
 func (c *dupSubExprChecker) checkBinaryExpr(expr *ast.BinaryExpr) {
-	if !c.opSet[expr.Op] {
-		return
-	}
-	if c.resultIsFloat(expr.X) && c.floatOpsSet[expr.Op] {
-		return
-	}
-	if typep.SideEffectFree(c.ctx.TypesInfo, expr) && c.opSet[expr.Op] && astequal.Expr(expr.X, expr.Y) {
-		c.warn(expr)
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 func (c *dupSubExprChecker) resultIsFloat(expr ast.Expr) bool {
-	typ, ok := c.ctx.TypeOf(expr).(*types.Basic)
-	return ok && typ.Info()&types.IsFloat != 0
+	_ = "STUB: not implemented"
+	return false
 }
 
-func (c *dupSubExprChecker) warn(cause *ast.BinaryExpr) {
-	c.ctx.Warn(cause, "suspicious identical LHS and RHS for `%s` operator", cause.Op)
-}
+func (c *dupSubExprChecker) warn(cause *ast.BinaryExpr) { _ = "STUB: not implemented"; return }

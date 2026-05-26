@@ -2,12 +2,9 @@ package checkers
 
 import (
 	"go/ast"
-	"go/types"
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
-
-	"github.com/go-toolsmith/astcast"
 )
 
 func init() {
@@ -36,21 +33,6 @@ type sloppyTypeAssertChecker struct {
 	ctx *linter.CheckerContext
 }
 
-func (c *sloppyTypeAssertChecker) VisitExpr(expr ast.Expr) {
-	assert := astcast.ToTypeAssertExpr(expr)
-	if assert.Type == nil {
-		return
-	}
+func (c *sloppyTypeAssertChecker) VisitExpr(expr ast.Expr) { _ = "STUB: not implemented"; return }
 
-	toType := c.ctx.TypeOf(expr)
-	fromType := c.ctx.TypeOf(assert.X)
-
-	if types.Identical(toType, fromType) {
-		c.warnIdentical(expr)
-		return
-	}
-}
-
-func (c *sloppyTypeAssertChecker) warnIdentical(cause ast.Expr) {
-	c.ctx.Warn(cause, "type assertion from/to types are identical")
-}
+func (c *sloppyTypeAssertChecker) warnIdentical(cause ast.Expr) { _ = "STUB: not implemented"; return }

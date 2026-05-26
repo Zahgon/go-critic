@@ -2,14 +2,9 @@ package checkers
 
 import (
 	"go/ast"
-	"go/token"
-	"strings"
-	"unicode"
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
-
-	"github.com/go-toolsmith/astcast"
 )
 
 func init() {
@@ -30,22 +25,6 @@ type octalLiteralChecker struct {
 	ctx *linter.CheckerContext
 }
 
-func (c *octalLiteralChecker) VisitExpr(expr ast.Expr) {
-	if !c.ctx.GoVersion.GreaterOrEqual(linter.GoVersion{Major: 1, Minor: 13}) {
-		return
-	}
-	lit := astcast.ToBasicLit(expr)
-	if lit.Kind != token.INT {
-		return
-	}
-	if !strings.HasPrefix(lit.Value, "0") || len(lit.Value) == 1 {
-		return
-	}
-	if unicode.IsDigit(rune(lit.Value[1])) {
-		c.warn(lit)
-	}
-}
+func (c *octalLiteralChecker) VisitExpr(expr ast.Expr) { _ = "STUB: not implemented"; return }
 
-func (c *octalLiteralChecker) warn(lit *ast.BasicLit) {
-	c.ctx.Warn(lit, "use new octal literal style, 0o%s", lit.Value[len("0"):])
-}
+func (c *octalLiteralChecker) warn(lit *ast.BasicLit) { _ = "STUB: not implemented"; return }

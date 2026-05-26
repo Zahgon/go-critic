@@ -2,7 +2,6 @@ package checkers
 
 import (
 	"go/ast"
-	"go/types"
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
@@ -38,17 +37,8 @@ type tooManyResultsChecker struct {
 }
 
 func (c *tooManyResultsChecker) VisitFuncDecl(decl *ast.FuncDecl) {
-	typ := c.ctx.TypeOf(decl.Name)
-	sig, ok := typ.(*types.Signature)
-	if !ok {
-		return
-	}
-
-	if count := sig.Results().Len(); count > c.maxParams {
-		c.warn(decl)
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
-func (c *tooManyResultsChecker) warn(n ast.Node) {
-	c.ctx.Warn(n, "function has more than %d results, consider to simplify the function", c.maxParams)
-}
+func (c *tooManyResultsChecker) warn(n ast.Node) { _ = "STUB: not implemented"; return }

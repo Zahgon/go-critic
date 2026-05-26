@@ -2,7 +2,6 @@ package checkers
 
 import (
 	"go/ast"
-	"go/token"
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
@@ -34,59 +33,13 @@ type typeDefFirstChecker struct {
 	trackedTypes map[string]bool
 }
 
-func (c *typeDefFirstChecker) WalkFile(f *ast.File) {
-	if len(f.Decls) == 0 {
-		return
-	}
+func (c *typeDefFirstChecker) WalkFile(f *ast.File) { _ = "STUB: not implemented"; return }
 
-	c.trackedTypes = make(map[string]bool)
-	for _, decl := range f.Decls {
-		c.walkDecl(decl)
-	}
-}
+func (c *typeDefFirstChecker) walkDecl(decl ast.Decl) { _ = "STUB: not implemented"; return }
 
-func (c *typeDefFirstChecker) walkDecl(decl ast.Decl) {
-	switch decl := decl.(type) {
-	case *ast.FuncDecl:
-		if decl.Recv == nil {
-			return
-		}
-		receiver := decl.Recv.List[0]
-		typeName := c.receiverType(receiver.Type)
-		c.trackedTypes[typeName] = true
-
-	case *ast.GenDecl:
-		if decl.Tok != token.TYPE {
-			return
-		}
-		for _, spec := range decl.Specs {
-			spec, ok := spec.(*ast.TypeSpec)
-			if !ok {
-				return
-			}
-			typeName := spec.Name.Name
-			if val, ok := c.trackedTypes[typeName]; ok && val {
-				c.warn(decl, typeName)
-			}
-		}
-	}
-}
-
-func (c *typeDefFirstChecker) receiverType(e ast.Expr) string {
-	switch e := e.(type) {
-	case *ast.StarExpr:
-		return c.receiverType(e.X)
-	case *ast.Ident:
-		return e.Name
-	case *ast.IndexExpr:
-		return c.receiverType(e.X)
-	case *ast.IndexListExpr:
-		return c.receiverType(e.X)
-	default:
-		panic("unreachable")
-	}
-}
+func (c *typeDefFirstChecker) receiverType(e ast.Expr) string { _ = "STUB: not implemented"; return "" }
 
 func (c *typeDefFirstChecker) warn(cause ast.Node, typeName string) {
-	c.ctx.Warn(cause, "definition of type '%s' should appear before its methods", typeName)
+	_ = "STUB: not implemented"
+	return
 }

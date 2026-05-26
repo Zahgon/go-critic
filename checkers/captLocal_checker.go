@@ -36,14 +36,8 @@ type captLocalChecker struct {
 }
 
 func (c *captLocalChecker) VisitLocalDef(def astwalk.Name, _ ast.Expr) {
-	if c.paramsOnly && def.Kind != astwalk.NameParam {
-		return
-	}
-	if ast.IsExported(def.ID.Name) {
-		c.warn(def.ID)
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
-func (c *captLocalChecker) warn(id ast.Node) {
-	c.ctx.Warn(id, "`%s' should not be capitalized", id)
-}
+func (c *captLocalChecker) warn(id ast.Node) { _ = "STUB: not implemented"; return }

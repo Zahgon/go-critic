@@ -3,7 +3,6 @@ package checkers
 import (
 	"go/ast"
 	"regexp"
-	"strings"
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
@@ -32,19 +31,4 @@ type whyNoLintChecker struct {
 	re  *regexp.Regexp
 }
 
-func (c whyNoLintChecker) VisitComment(cg *ast.CommentGroup) {
-	if strings.HasPrefix(cg.List[0].Text, "/*") {
-		return
-	}
-	for _, comment := range cg.List {
-		sl := c.re.FindStringSubmatch(comment.Text)
-		if len(sl) < 2 {
-			continue
-		}
-
-		if s := sl[1]; !strings.HasPrefix(s, "//") || strings.TrimPrefix(s, "//") == "" {
-			c.ctx.Warn(cg, "include an explanation for nolint directive")
-			return
-		}
-	}
-}
+func (c whyNoLintChecker) VisitComment(cg *ast.CommentGroup) { _ = "STUB: not implemented"; return }

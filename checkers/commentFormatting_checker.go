@@ -3,9 +3,6 @@ package checkers
 import (
 	"go/ast"
 	"regexp"
-	"strings"
-	"unicode"
-	"unicode/utf8"
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
@@ -62,62 +59,16 @@ type commentFormattingChecker struct {
 }
 
 func (c *commentFormattingChecker) VisitComment(cg *ast.CommentGroup) {
-	if strings.HasPrefix(cg.List[0].Text, "/*") {
-		return
-	}
-
-outerLoop:
-	for _, comment := range cg.List {
-		commentLen := len(comment.Text)
-		if commentLen <= len("// ") {
-			continue
-		}
-
-		for _, p := range c.partPatterns {
-			if commentLen < len(p) {
-				continue
-			}
-
-			if strings.EqualFold(comment.Text[:len(p)], p) {
-				continue outerLoop
-			}
-		}
-
-		for _, p := range c.equalPatterns {
-			if strings.EqualFold(comment.Text, p) {
-				continue outerLoop
-			}
-		}
-
-		for _, p := range c.regexpPatterns {
-			if p.MatchString(comment.Text) {
-				continue outerLoop
-			}
-		}
-
-		// Make a decision based on a first comment text rune.
-		r, _ := utf8.DecodeRuneInString(comment.Text[len("//"):])
-		if !c.specialChar(r) && !unicode.IsSpace(r) {
-			c.warn(comment)
-			return
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }
+
+// Make a decision based on a first comment text rune.
 
 func (c *commentFormattingChecker) specialChar(r rune) bool {
+	_ = "STUB: not implemented"
 	// Permitted list to avoid false-positives.
-	switch r {
-	case '+', '-', '#', '!':
-		return true
-	default:
-		return false
-	}
+	return false
 }
 
-func (c *commentFormattingChecker) warn(comment *ast.Comment) {
-	c.ctx.WarnFixable(comment, linter.QuickFix{
-		From:        comment.Pos(),
-		To:          comment.End(),
-		Replacement: []byte(strings.Replace(comment.Text, "//", "// ", 1)),
-	}, "put a space between `//` and comment text")
-}
+func (c *commentFormattingChecker) warn(comment *ast.Comment) { _ = "STUB: not implemented"; return }

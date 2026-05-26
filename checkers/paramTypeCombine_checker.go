@@ -5,9 +5,6 @@ import (
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
-
-	"github.com/go-toolsmith/astcopy"
-	"github.com/go-toolsmith/astequal"
 )
 
 func init() {
@@ -29,69 +26,33 @@ type paramTypeCombineChecker struct {
 }
 
 func (c *paramTypeCombineChecker) EnterFunc(*ast.FuncDecl) bool {
-	return true
+	_ = "STUB: not implemented"
+	return false
 }
 
 func (c *paramTypeCombineChecker) VisitFuncDecl(decl *ast.FuncDecl) {
-	typ := c.optimizeFuncType(decl.Type)
-	if !astequal.Expr(typ, decl.Type) {
-		c.warn(decl.Type, typ)
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 func (c *paramTypeCombineChecker) optimizeFuncType(f *ast.FuncType) *ast.FuncType {
-	optimizedParamFunc := astcopy.FuncType(f)
-
-	optimizedParamFunc.Params = c.optimizeParams(f.Params)
-	optimizedParamFunc.Results = c.optimizeParams(f.Results)
-
-	return optimizedParamFunc
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func (c *paramTypeCombineChecker) optimizeParams(params *ast.FieldList) *ast.FieldList {
+	_ = "STUB: not implemented"
 	// To avoid false positives, skip unnamed param lists.
 	//
 	// We're using a property that Go only permits unnamed params
 	// for the whole list, so it's enough to check whether any of
 	// ast.Field have empty name list.
-	skip := params == nil ||
-		len(params.List) < 2 ||
-		len(params.List[0].Names) == 0 ||
-		c.paramsAreMultiLine(params)
-	if skip {
-		return params
-	}
-
-	list := []*ast.Field{}
-	names := make([]*ast.Ident, len(params.List[0].Names))
-	copy(names, params.List[0].Names)
-	list = append(list, &ast.Field{
-		Names: names,
-		Type:  params.List[0].Type,
-	})
-	for i, p := range params.List[1:] {
-		names = make([]*ast.Ident, len(p.Names))
-		copy(names, p.Names)
-		if astequal.Expr(p.Type, params.List[i].Type) {
-			list[len(list)-1].Names = append(list[len(list)-1].Names, names...)
-		} else {
-			list = append(list, &ast.Field{
-				Names: names,
-				Type:  params.List[i+1].Type,
-			})
-		}
-	}
-	return &ast.FieldList{
-		List: list,
-	}
+	return nil
 }
 
-func (c *paramTypeCombineChecker) warn(f1, f2 *ast.FuncType) {
-	c.ctx.Warn(f1, "%s could be replaced with %s", f1, f2)
-}
+func (c *paramTypeCombineChecker) warn(f1, f2 *ast.FuncType) { _ = "STUB: not implemented"; return }
 
 func (c *paramTypeCombineChecker) paramsAreMultiLine(params *ast.FieldList) bool {
-	startPos := c.ctx.FileSet.Position(params.Opening)
-	endPos := c.ctx.FileSet.Position(params.Closing)
-	return startPos.Line != endPos.Line
+	_ = "STUB: not implemented"
+	return false
 }

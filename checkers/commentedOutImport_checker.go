@@ -2,7 +2,6 @@ package checkers
 
 import (
 	"go/ast"
-	"go/token"
 	"regexp"
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
@@ -41,36 +40,23 @@ type commentedOutImportChecker struct {
 }
 
 func (c *commentedOutImportChecker) WalkFile(f *ast.File) {
+	_ = "STUB: not implemented"
 	// TODO(quasilyte): handle commented-out import spec,
 	// for example: // import "errors".
-
-	for _, decl := range f.Decls {
-		decl, ok := decl.(*ast.GenDecl)
-		if !ok || decl.Tok != token.IMPORT {
-			// Import decls can only be in the beginning of the file.
-			// If we've met some other decl, there will be no more
-			// import decls.
-			break
-		}
-
-		// Find comments inside this import decl span.
-		for _, cg := range f.Comments {
-			if cg.Pos() > decl.Rparen {
-				break // Below the decl, stop.
-			}
-			if cg.Pos() < decl.Lparen {
-				continue // Before the decl, skip.
-			}
-
-			for _, comment := range cg.List {
-				for _, m := range c.importStringRE.FindAllStringSubmatch(comment.Text, -1) {
-					c.warn(comment, m[1])
-				}
-			}
-		}
-	}
+	return
 }
 
+// Import decls can only be in the beginning of the file.
+// If we've met some other decl, there will be no more
+// import decls.
+
+// Find comments inside this import decl span.
+
+// Below the decl, stop.
+
+// Before the decl, skip.
+
 func (c *commentedOutImportChecker) warn(cause ast.Node, path string) {
-	c.ctx.Warn(cause, "remove commented-out %q import", path)
+	_ = "STUB: not implemented"
+	return
 }

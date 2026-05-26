@@ -1,17 +1,11 @@
 package checkers
 
 import (
-	"fmt"
 	"go/ast"
-	"go/token"
 	"regexp"
-	"strings"
-	"unicode/utf8"
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
-
-	"github.com/go-toolsmith/strparse"
 )
 
 func init() {
@@ -49,78 +43,39 @@ type commentedOutCodeChecker struct {
 }
 
 func (c *commentedOutCodeChecker) EnterFunc(fn *ast.FuncDecl) bool {
-	c.fn = fn // Need to store current function inside checker context
-	return fn.Body != nil
+	_ = "STUB: not implemented"
+	// Need to store current function inside checker context
+	return false
 }
 
 func (c *commentedOutCodeChecker) VisitLocalComment(cg *ast.CommentGroup) {
-	s := cg.Text() // Collect text once
-
-	// We do multiple heuristics to avoid false positives.
-	// Many things can be improved here.
-
-	markers := []string{
-		"TODO", // TODO comments with code are permitted.
-
-		// "http://" is interpreted as a label with comment.
-		// There are other protocols we might want to include.
-		"http://",
-		"https://",
-
-		"e.g. ", // Clearly not a "selector expr" (mostly due to extra space)
-	}
-	for _, m := range markers {
-		if strings.Contains(s, m) {
-			return
-		}
-	}
-
-	// Some very short comment that can be skipped.
-	// Usually triggering on these results in false positive.
-	// Unless there is a very popular call like print/println.
-	cond := utf8.RuneCountInString(s) < c.minLength &&
-		!strings.Contains(s, "print") &&
-		!strings.Contains(s, "fmt.") &&
-		!strings.Contains(s, "log.")
-	if cond {
-		return
-	}
-
-	// Almost looks like a commented-out function call,
-	// but there is a whitespace between function name and
-	// parameters list. Skip these to avoid false positives.
-	if c.notQuiteFuncCall.MatchString(s) {
-		return
-	}
-
-	if c.isExampleOutputComment(s) {
-		return
-	}
-
-	stmt := strparse.Stmt(s)
-
-	if c.isPermittedStmt(stmt) {
-		return
-	}
-
-	if stmt != strparse.BadStmt {
-		c.warn(cg)
-		return
-	}
-
-	// Don't try to parse one-liner as block statement
-	if len(cg.List) == 1 && !strings.Contains(s, "\n") {
-		return
-	}
-
-	// Add braces to make block statement from
-	// multiple statements.
-	stmt = strparse.Stmt(fmt.Sprintf("{ %s }", s))
-
-	if stmt, ok := stmt.(*ast.BlockStmt); ok && len(stmt.List) != 0 {
-		c.warn(cg)
-	}
+	_ = "STUB: not implemented"
+	// Collect text once
+	return
 }
+
+// We do multiple heuristics to avoid false positives.
+// Many things can be improved here.
+
+// TODO comments with code are permitted.
+
+// "http://" is interpreted as a label with comment.
+// There are other protocols we might want to include.
+
+// Clearly not a "selector expr" (mostly due to extra space)
+
+// Some very short comment that can be skipped.
+// Usually triggering on these results in false positive.
+// Unless there is a very popular call like print/println.
+
+// Almost looks like a commented-out function call,
+// but there is a whitespace between function name and
+// parameters list. Skip these to avoid false positives.
+
+// Don't try to parse one-liner as block statement
+
+// Add braces to make block statement from
+// multiple statements.
 
 // An example output comment can be one of the following:
 //
@@ -133,37 +88,22 @@ func (c *commentedOutCodeChecker) VisitLocalComment(cg *ast.CommentGroup) {
 //
 // See https://go.dev/blog/examples
 func (c *commentedOutCodeChecker) isExampleOutputComment(s string) bool {
-	return isExampleTestFunc(c.fn) && strings.Contains(s, "Output:")
+	_ = "STUB: not implemented"
+	return false
 }
 
 func (c *commentedOutCodeChecker) isPermittedStmt(stmt ast.Stmt) bool {
-	switch stmt := stmt.(type) {
-	case *ast.ExprStmt:
-		return c.isPermittedExpr(stmt.X)
-	case *ast.LabeledStmt:
-		return c.isPermittedStmt(stmt.Stmt)
-	case *ast.DeclStmt:
-		decl := stmt.Decl.(*ast.GenDecl)
-		return decl.Tok == token.TYPE
-	default:
-		return false
-	}
+	_ = "STUB: not implemented"
+	return false
 }
 
 func (c *commentedOutCodeChecker) isPermittedExpr(x ast.Expr) bool {
+	_ = "STUB: not implemented"
 	// Permit anything except expressions that can be used
 	// with complete result discarding.
-	switch x := x.(type) {
-	case *ast.CallExpr:
-		return false
-	case *ast.UnaryExpr:
-		// "<-" channel receive is not permitted.
-		return x.Op != token.ARROW
-	default:
-		return true
-	}
+	return false
 }
 
-func (c *commentedOutCodeChecker) warn(cause ast.Node) {
-	c.ctx.Warn(cause, "may want to remove commented-out code")
-}
+// "<-" channel receive is not permitted.
+
+func (c *commentedOutCodeChecker) warn(cause ast.Node) { _ = "STUB: not implemented"; return }

@@ -2,14 +2,9 @@ package checkers
 
 import (
 	"go/ast"
-	"go/constant"
-	"go/types"
-	"strings"
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
-
-	"github.com/go-toolsmith/astcast"
 )
 
 func init() {
@@ -31,59 +26,25 @@ type flagNameChecker struct {
 	ctx *linter.CheckerContext
 }
 
-func (c *flagNameChecker) VisitExpr(expr ast.Expr) {
-	call := astcast.ToCallExpr(expr)
-	calledExpr := astcast.ToSelectorExpr(call.Fun)
-	obj, ok := c.ctx.TypesInfo.ObjectOf(astcast.ToIdent(calledExpr.X)).(*types.PkgName)
-	if !ok {
-		return
-	}
-	sym := calledExpr.Sel
-	pkg := obj.Imported()
-	if pkg.Path() != "flag" {
-		return
-	}
-
-	switch sym.Name {
-	case "Bool", "Duration", "Float64", "String",
-		"Int", "Int64", "Uint", "Uint64":
-		c.checkFlagName(call, call.Args[0])
-	case "BoolVar", "DurationVar", "Float64Var", "StringVar",
-		"IntVar", "Int64Var", "UintVar", "Uint64Var":
-		c.checkFlagName(call, call.Args[1])
-	}
-}
+func (c *flagNameChecker) VisitExpr(expr ast.Expr) { _ = "STUB: not implemented"; return }
 
 func (c *flagNameChecker) checkFlagName(call *ast.CallExpr, arg ast.Expr) {
-	cv := c.ctx.TypesInfo.Types[arg].Value
-	if cv == nil {
-		return // Non-constant name
-	}
-	name := constant.StringVal(cv)
-	switch {
-	case name == "":
-		c.warnEmpty(call)
-	case strings.HasPrefix(name, "-"):
-		c.warnHyphenPrefix(call, name)
-	case strings.Contains(name, "="):
-		c.warnEq(call, name)
-	case strings.Contains(name, " "):
-		c.warnWhitespace(call, name)
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
-func (c *flagNameChecker) warnEmpty(cause ast.Node) {
-	c.ctx.Warn(cause, "empty flag name")
-}
+// Non-constant name
+
+func (c *flagNameChecker) warnEmpty(cause ast.Node) { _ = "STUB: not implemented"; return }
 
 func (c *flagNameChecker) warnHyphenPrefix(cause ast.Node, name string) {
-	c.ctx.Warn(cause, "flag name %q should not start with a hyphen", name)
+	_ = "STUB: not implemented"
+	return
 }
 
-func (c *flagNameChecker) warnEq(cause ast.Node, name string) {
-	c.ctx.Warn(cause, "flag name %q should not contain '='", name)
-}
+func (c *flagNameChecker) warnEq(cause ast.Node, name string) { _ = "STUB: not implemented"; return }
 
 func (c *flagNameChecker) warnWhitespace(cause ast.Node, name string) {
-	c.ctx.Warn(cause, "flag name %q contains whitespace", name)
+	_ = "STUB: not implemented"
+	return
 }

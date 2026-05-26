@@ -5,10 +5,6 @@ import (
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
-
-	"github.com/go-toolsmith/astfmt"
-	"github.com/go-toolsmith/astp"
-	"golang.org/x/tools/go/ast/astutil"
 )
 
 func init() {
@@ -39,53 +35,28 @@ type exitAfterDeferChecker struct {
 }
 
 func (c *exitAfterDeferChecker) VisitFuncDecl(fn *ast.FuncDecl) {
+	_ = "STUB: not implemented"
 	// TODO(quasilyte): handle goto and other kinds of flow that break
 	// the algorithm below that expects the latter statement to be
 	// executed after the ones that come before it.
-
-	var deferStmt *ast.DeferStmt
-	pre := func(cur *astutil.Cursor) bool {
-		// If we found a defer statement in the function post traversal.
-		// and are looking at the Else branch during a pre traversal, stop seeking as it could be false positive.
-		if deferStmt != nil && cur.Name() == "Else" {
-			return false
-		}
-
-		// Don't recurse into local anonymous functions.
-		return !astp.IsFuncLit(cur.Node())
-	}
-	post := func(cur *astutil.Cursor) bool {
-		switch n := cur.Node().(type) {
-		case *ast.DeferStmt:
-			deferStmt = n
-		case *ast.CallExpr:
-			// See #995. We allow `defer os.Exit()` calls
-			// as it's harder to determine whether they're going
-			// to clutter anything without actually trying to
-			// simulate the defer stack + understanding the control flow.
-			// TODO: can we use CFG here?
-			if _, ok := cur.Parent().(*ast.DeferStmt); ok {
-				return true
-			}
-			if deferStmt != nil {
-				switch qualifiedName(n.Fun) {
-				case "log.Fatal", "log.Fatalf", "log.Fatalln", "os.Exit":
-					c.warn(n, deferStmt)
-					return false
-				}
-			}
-		}
-		return true
-	}
-	astutil.Apply(fn.Body, pre, post)
+	return
 }
+
+// If we found a defer statement in the function post traversal.
+// and are looking at the Else branch during a pre traversal, stop seeking as it could be false positive.
+
+// Don't recurse into local anonymous functions.
+
+// See #995. We allow `defer os.Exit()` calls
+// as it's harder to determine whether they're going
+// to clutter anything without actually trying to
+// simulate the defer stack + understanding the control flow.
+// TODO: can we use CFG here?
 
 func (c *exitAfterDeferChecker) warn(cause *ast.CallExpr, deferStmt *ast.DeferStmt) {
-	s := astfmt.Sprint(deferStmt)
-	if fnlit, ok := deferStmt.Call.Fun.(*ast.FuncLit); ok {
-		// To avoid long and multi-line warning messages,
-		// collapse the function literals.
-		s = "defer " + astfmt.Sprint(fnlit.Type) + "{...}(...)"
-	}
-	c.ctx.Warn(cause, "%s will exit, and `%s` will not run", cause.Fun, s)
+	_ = "STUB: not implemented"
+	return
 }
+
+// To avoid long and multi-line warning messages,
+// collapse the function literals.

@@ -2,7 +2,6 @@ package checkers
 
 import (
 	"go/ast"
-	"go/types"
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
@@ -53,28 +52,13 @@ type rangeExprCopyChecker struct {
 }
 
 func (c *rangeExprCopyChecker) EnterFunc(fn *ast.FuncDecl) bool {
-	return fn.Body != nil &&
-		!(c.skipTestFuncs && isUnitTestFunc(c.ctx, fn))
+	_ = "STUB: not implemented"
+	return false
 }
 
-func (c *rangeExprCopyChecker) VisitStmt(stmt ast.Stmt) {
-	rng, ok := stmt.(*ast.RangeStmt)
-	if !ok || rng.Key == nil || rng.Value == nil {
-		return
-	}
-	tv := c.ctx.TypesInfo.Types[rng.X]
-	if !tv.Addressable() {
-		return
-	}
-	if _, ok := tv.Type.(*types.Array); !ok {
-		return
-	}
-	if size, ok := c.ctx.SizeOf(tv.Type); ok && size >= c.sizeThreshold {
-		c.warn(rng, size)
-	}
-}
+func (c *rangeExprCopyChecker) VisitStmt(stmt ast.Stmt) { _ = "STUB: not implemented"; return }
 
 func (c *rangeExprCopyChecker) warn(rng *ast.RangeStmt, size int64) {
-	c.ctx.Warn(rng, "copy of %s (%d bytes) can be avoided with &%s",
-		rng.X, size, rng.X)
+	_ = "STUB: not implemented"
+	return
 }

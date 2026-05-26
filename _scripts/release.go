@@ -2,11 +2,7 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
-	"os"
-	"os/exec"
-	"path/filepath"
 )
 
 type platformInfo struct {
@@ -14,7 +10,7 @@ type platformInfo struct {
 	goarch string
 }
 
-func (p platformInfo) String() string { return p.goos + "-" + p.goarch }
+func (p platformInfo) String() string { _ = "STUB: not implemented"; return "" }
 
 func main() {
 	log.SetFlags(0)
@@ -43,31 +39,8 @@ func main() {
 }
 
 func prepareArchive(platform platformInfo, version string) error {
-	log.Printf("building %s", platform)
-
-	buildCmd := exec.Command("make", "build-release")
-	buildCmd.Env = append([]string{}, os.Environ()...) // Copy env slice
-	buildCmd.Env = append(buildCmd.Env, "GOOS="+platform.goos)
-	buildCmd.Env = append(buildCmd.Env, "GOARCH="+platform.goarch)
-	buildCmd.Env = append(buildCmd.Env, "GOCRITIC_VERSION="+version)
-	out, err := buildCmd.CombinedOutput()
-	if err != nil {
-		return fmt.Errorf("run %s: %v: %s", buildCmd, err, out)
-	}
-
-	filename := "go-critic"
-	if platform.goos == "windows" {
-		filename = "go-critic.exe"
-		os.Rename(filepath.Join("bin", "go-critic"), filepath.Join("bin", filename))
-	}
-
-	archiveName := "go-critic-" + platform.String() + ".zip"
-	zipCmd := exec.Command("zip", archiveName, filename)
-	zipCmd.Dir = "bin"
-	log.Printf("creating %s archive", archiveName)
-	if out, err := zipCmd.CombinedOutput(); err != nil {
-		return fmt.Errorf("make archive: %v: %s", err, out)
-	}
-
+	_ = "STUB: not implemented"
 	return nil
 }
+
+// Copy env slice

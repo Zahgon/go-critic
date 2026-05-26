@@ -2,8 +2,6 @@ package lintutil
 
 import (
 	"go/ast"
-
-	"golang.org/x/tools/go/ast/astutil"
 )
 
 // FindNode applies pred for root and all it's childs until it returns true.
@@ -12,30 +10,12 @@ import (
 // Matched node is returned.
 // If none of the nodes matched predicate, nil is returned.
 func FindNode(root ast.Node, followFunc, pred func(ast.Node) bool) ast.Node {
-	var (
-		found   ast.Node
-		preFunc func(*astutil.Cursor) bool
-	)
-
-	if followFunc != nil {
-		preFunc = func(cur *astutil.Cursor) bool {
-			return followFunc(cur.Node())
-		}
-	}
-
-	astutil.Apply(root,
-		preFunc,
-		func(cur *astutil.Cursor) bool {
-			if pred(cur.Node()) {
-				found = cur.Node()
-				return false
-			}
-			return true
-		})
-	return found
+	_ = "STUB: not implemented"
+	return *new(ast.Node)
 }
 
 // ContainsNode reports whether `FindNode(root, pred)!=nil`.
 func ContainsNode(root ast.Node, pred func(ast.Node) bool) bool {
-	return FindNode(root, nil, pred) != nil
+	_ = "STUB: not implemented"
+	return false
 }

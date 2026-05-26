@@ -46,28 +46,8 @@ type nestingReduceChecker struct {
 	bodyWidth int
 }
 
-func (c *nestingReduceChecker) VisitStmt(stmt ast.Stmt) {
-	switch stmt := stmt.(type) {
-	case *ast.ForStmt:
-		c.checkLoopBody(stmt.Body.List)
-	case *ast.RangeStmt:
-		c.checkLoopBody(stmt.Body.List)
-	}
-}
+func (c *nestingReduceChecker) VisitStmt(stmt ast.Stmt) { _ = "STUB: not implemented"; return }
 
-func (c *nestingReduceChecker) checkLoopBody(body []ast.Stmt) {
-	if len(body) != 1 {
-		return
-	}
-	stmt, ok := body[0].(*ast.IfStmt)
-	if !ok {
-		return
-	}
-	if len(stmt.Body.List) >= c.bodyWidth && stmt.Else == nil {
-		c.warnLoop(stmt)
-	}
-}
+func (c *nestingReduceChecker) checkLoopBody(body []ast.Stmt) { _ = "STUB: not implemented"; return }
 
-func (c *nestingReduceChecker) warnLoop(cause ast.Node) {
-	c.ctx.Warn(cause, "invert if cond, replace body with `continue`, move old body after the statement")
-}
+func (c *nestingReduceChecker) warnLoop(cause ast.Node) { _ = "STUB: not implemented"; return }

@@ -59,52 +59,25 @@ type ifElseChainChecker struct {
 }
 
 func (c *ifElseChainChecker) EnterFunc(fn *ast.FuncDecl) bool {
-	if fn.Body == nil {
-		return false
-	}
-	c.visited = make(map[*ast.IfStmt]bool)
-	return true
+	_ = "STUB: not implemented"
+	return false
 }
 
-func (c *ifElseChainChecker) VisitStmt(stmt ast.Stmt) {
-	if stmt, ok := stmt.(*ast.IfStmt); ok {
-		if c.visited[stmt] {
-			return
-		}
-		c.cause = stmt
-		c.checkIfStmt(stmt)
-	}
-}
+func (c *ifElseChainChecker) VisitStmt(stmt ast.Stmt) { _ = "STUB: not implemented"; return }
 
-func (c *ifElseChainChecker) checkIfStmt(stmt *ast.IfStmt) {
-	if c.countIfelseLen(stmt) >= c.minThreshold {
-		c.warn()
-	}
-}
+func (c *ifElseChainChecker) checkIfStmt(stmt *ast.IfStmt) { _ = "STUB: not implemented"; return }
 
 func (c *ifElseChainChecker) countIfelseLen(stmt *ast.IfStmt) int {
-	count := 0
-	for {
-		if stmt.Init != nil {
-			return 0 // Give up
-		}
-
-		switch e := stmt.Else.(type) {
-		case *ast.IfStmt:
-			// Else if.
-			stmt = e
-			count++
-			c.visited[e] = true
-		case *ast.BlockStmt:
-			// Else branch.
-			return count + 1
-		default:
-			// No else or else if.
-			return count
-		}
-	}
+	_ = "STUB: not implemented"
+	return 0
 }
 
-func (c *ifElseChainChecker) warn() {
-	c.ctx.Warn(c.cause, "rewrite if-else to switch statement")
-}
+// Give up
+
+// Else if.
+
+// Else branch.
+
+// No else or else if.
+
+func (c *ifElseChainChecker) warn() { _ = "STUB: not implemented"; return }

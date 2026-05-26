@@ -3,7 +3,6 @@ package checkers
 import (
 	"go/ast"
 	"go/types"
-	"strings"
 
 	"github.com/go-critic/go-critic/linter"
 )
@@ -235,31 +234,17 @@ var goBuiltins = map[string]bool{
 }
 
 // isBuiltin reports whether sym belongs to a predefined identifier set.
-func isBuiltin(sym string) bool {
-	return goBuiltins[sym]
-}
+func isBuiltin(sym string) bool { _ = "STUB: not implemented"; return false }
 
 // isStdlibPkg reports whether pkg is a package from the Go standard library.
-func isStdlibPkg(pkg *types.Package) bool {
-	return pkg != nil && goStdlib[pkg.Path()]
-}
+func isStdlibPkg(pkg *types.Package) bool { _ = "STUB: not implemented"; return false }
 
 // isExampleTestFunc reports whether FuncDecl looks like a testable example function.
-func isExampleTestFunc(fn *ast.FuncDecl) bool {
-	return len(fn.Type.Params.List) == 0 && strings.HasPrefix(fn.Name.String(), "Example")
-}
+func isExampleTestFunc(fn *ast.FuncDecl) bool { _ = "STUB: not implemented"; return false }
 
 // isUnitTestFunc reports whether FuncDecl declares testing function.
 func isUnitTestFunc(ctx *linter.CheckerContext, fn *ast.FuncDecl) bool {
-	if !strings.HasPrefix(fn.Name.Name, "Test") {
-		return false
-	}
-	typ := ctx.TypesInfo.TypeOf(fn.Name)
-	if sig, ok := typ.(*types.Signature); ok {
-		return sig.Results().Len() == 0 &&
-			sig.Params().Len() == 1 &&
-			sig.Params().At(0).Type().String() == "*testing.T"
-	}
+	_ = "STUB: not implemented"
 	return false
 }
 
@@ -269,44 +254,18 @@ func isUnitTestFunc(ctx *linter.CheckerContext, fn *ast.FuncDecl) bool {
 // from other package like pkg.f => "pkg.f".
 //
 // For all unexpected expressions returns empty string.
-func qualifiedName(x ast.Expr) string {
-	switch x := x.(type) {
-	case *ast.SelectorExpr:
-		pkg, ok := x.X.(*ast.Ident)
-		if !ok {
-			return ""
-		}
-		return pkg.Name + "." + x.Sel.Name
-	case *ast.Ident:
-		return x.Name
-	default:
-		return ""
-	}
-}
+func qualifiedName(x ast.Expr) string { _ = "STUB: not implemented"; return "" }
 
 // identOf returns identifier for x that can be used to obtain associated types.Object.
 // Returns nil for expressions that yield temporary results, like `f().field`.
-func identOf(x ast.Node) *ast.Ident {
-	switch x := x.(type) {
-	case *ast.Ident:
-		return x
-	case *ast.SelectorExpr:
-		return identOf(x.Sel)
-	case *ast.TypeAssertExpr:
-		// x.(type) - x may contain ident.
-		return identOf(x.X)
-	case *ast.IndexExpr:
-		// x[i] - x may contain ident.
-		return identOf(x.X)
-	case *ast.StarExpr:
-		// *x - x may contain ident.
-		return identOf(x.X)
-	case *ast.SliceExpr:
-		// x[:] - x may contain ident.
-		return identOf(x.X)
+func identOf(x ast.Node) *ast.Ident { _ = "STUB: not implemented"; return nil }
 
-	default:
-		// Note that this function is not comprehensive.
-		return nil
-	}
-}
+// x.(type) - x may contain ident.
+
+// x[i] - x may contain ident.
+
+// *x - x may contain ident.
+
+// x[:] - x may contain ident.
+
+// Note that this function is not comprehensive.

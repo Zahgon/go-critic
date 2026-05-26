@@ -25,39 +25,15 @@ type builtinShadowDeclChecker struct {
 	ctx *linter.CheckerContext
 }
 
-func (c *builtinShadowDeclChecker) WalkFile(f *ast.File) {
-	for _, decl := range f.Decls {
-		switch decl := decl.(type) {
-		case *ast.FuncDecl:
-			// Don't check methods. They can shadow anything safely.
-			if decl.Recv == nil {
-				c.checkName(decl.Name)
-			}
-		case *ast.GenDecl:
-			c.visitGenDecl(decl)
-		}
-	}
-}
+func (c *builtinShadowDeclChecker) WalkFile(f *ast.File) { _ = "STUB: not implemented"; return }
+
+// Don't check methods. They can shadow anything safely.
 
 func (c *builtinShadowDeclChecker) visitGenDecl(decl *ast.GenDecl) {
-	for _, spec := range decl.Specs {
-		switch spec := spec.(type) {
-		case *ast.ValueSpec:
-			for _, name := range spec.Names {
-				c.checkName(name)
-			}
-		case *ast.TypeSpec:
-			c.checkName(spec.Name)
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
-func (c *builtinShadowDeclChecker) checkName(name *ast.Ident) {
-	if isBuiltin(name.Name) {
-		c.warn(name)
-	}
-}
+func (c *builtinShadowDeclChecker) checkName(name *ast.Ident) { _ = "STUB: not implemented"; return }
 
-func (c *builtinShadowDeclChecker) warn(ident *ast.Ident) {
-	c.ctx.Warn(ident, "shadowing of predeclared identifier: %s", ident)
-}
+func (c *builtinShadowDeclChecker) warn(ident *ast.Ident) { _ = "STUB: not implemented"; return }

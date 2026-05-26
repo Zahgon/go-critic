@@ -5,8 +5,6 @@ import (
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
-
-	"github.com/go-toolsmith/astp"
 )
 
 func init() {
@@ -30,28 +28,11 @@ type initClauseChecker struct {
 	ctx *linter.CheckerContext
 }
 
-func (c *initClauseChecker) VisitStmt(stmt ast.Stmt) {
-	initClause := c.getInitClause(stmt)
-	if initClause != nil && !astp.IsAssignStmt(initClause) {
-		c.warn(stmt, initClause)
-	}
-}
+func (c *initClauseChecker) VisitStmt(stmt ast.Stmt) { _ = "STUB: not implemented"; return }
 
 func (c *initClauseChecker) getInitClause(x ast.Stmt) ast.Stmt {
-	switch x := x.(type) {
-	case *ast.IfStmt:
-		return x.Init
-	case *ast.SwitchStmt:
-		return x.Init
-	default:
-		return nil
-	}
+	_ = "STUB: not implemented"
+	return *new(ast.Stmt)
 }
 
-func (c *initClauseChecker) warn(stmt, clause ast.Stmt) {
-	name := "if"
-	if astp.IsSwitchStmt(stmt) {
-		name = "switch"
-	}
-	c.ctx.Warn(stmt, "consider to move `%s` before %s", clause, name)
-}
+func (c *initClauseChecker) warn(stmt, clause ast.Stmt) { _ = "STUB: not implemented"; return }

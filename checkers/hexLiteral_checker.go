@@ -2,13 +2,9 @@ package checkers
 
 import (
 	"go/ast"
-	"go/token"
-	"strings"
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
-
-	"github.com/go-toolsmith/astcast"
 )
 
 func init() {
@@ -36,26 +32,8 @@ type hexLiteralChecker struct {
 	ctx *linter.CheckerContext
 }
 
-func (c *hexLiteralChecker) warn0X(lit *ast.BasicLit) {
-	suggest := "0x" + lit.Value[len("0X"):]
-	c.ctx.Warn(lit, "prefer 0x over 0X, s/%s/%s/", lit.Value, suggest)
-}
+func (c *hexLiteralChecker) warn0X(lit *ast.BasicLit) { _ = "STUB: not implemented"; return }
 
-func (c *hexLiteralChecker) warnMixedDigits(lit *ast.BasicLit) {
-	c.ctx.Warn(lit, "don't mix hex literal letter digits casing")
-}
+func (c *hexLiteralChecker) warnMixedDigits(lit *ast.BasicLit) { _ = "STUB: not implemented"; return }
 
-func (c *hexLiteralChecker) VisitExpr(expr ast.Expr) {
-	lit := astcast.ToBasicLit(expr)
-	if lit.Kind != token.INT || len(lit.Value) < 3 {
-		return
-	}
-	if strings.HasPrefix(lit.Value, "0X") {
-		c.warn0X(lit)
-		return
-	}
-	digits := lit.Value[len("0x"):]
-	if strings.ToLower(digits) != digits && strings.ToUpper(digits) != digits {
-		c.warnMixedDigits(lit)
-	}
-}
+func (c *hexLiteralChecker) VisitExpr(expr ast.Expr) { _ = "STUB: not implemented"; return }

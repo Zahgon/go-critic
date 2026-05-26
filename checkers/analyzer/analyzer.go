@@ -66,5 +66,6 @@ func init() {
 }
 
 func checkerParamName(info *linter.CheckerInfo, pname string) string {
-	return "@" + info.Name + "." + pname
+	_ = "STUB: not implemented"
+	return ""
 }

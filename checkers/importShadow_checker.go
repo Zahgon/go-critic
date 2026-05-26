@@ -31,17 +31,11 @@ type importShadowChecker struct {
 }
 
 func (c *importShadowChecker) VisitLocalDef(def astwalk.Name, _ ast.Expr) {
-	for pkgObj, name := range c.ctx.PkgObjects {
-		if name == def.ID.Name && name != "_" {
-			c.warn(def.ID, name, pkgObj.Imported())
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 func (c *importShadowChecker) warn(id ast.Node, importedName string, pkg *types.Package) {
-	if isStdlibPkg(pkg) {
-		c.ctx.Warn(id, "shadow of imported package '%s'", importedName)
-	} else {
-		c.ctx.Warn(id, "shadow of imported from '%s' package '%s'", pkg.Path(), importedName)
-	}
+	_ = "STUB: not implemented"
+	return
 }

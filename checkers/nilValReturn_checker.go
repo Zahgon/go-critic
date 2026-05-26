@@ -2,13 +2,9 @@ package checkers
 
 import (
 	"go/ast"
-	"go/token"
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
-
-	"github.com/go-toolsmith/astequal"
-	"github.com/go-toolsmith/typep"
 )
 
 func init() {
@@ -40,33 +36,6 @@ type nilValReturnChecker struct {
 	ctx *linter.CheckerContext
 }
 
-func (c *nilValReturnChecker) VisitStmt(stmt ast.Stmt) {
-	ifStmt, ok := stmt.(*ast.IfStmt)
-	if !ok || len(ifStmt.Body.List) != 1 {
-		return
-	}
-	ret, ok := ifStmt.Body.List[0].(*ast.ReturnStmt)
-	if !ok {
-		return
-	}
-	expr, ok := ifStmt.Cond.(*ast.BinaryExpr)
-	if !ok {
-		return
-	}
-	xIsNil := expr.Op == token.EQL &&
-		typep.SideEffectFree(c.ctx.TypesInfo, expr.X) &&
-		qualifiedName(expr.Y) == "nil"
-	if !xIsNil {
-		return
-	}
-	for _, res := range ret.Results {
-		if astequal.Expr(expr.X, res) {
-			c.warn(ret, expr.X)
-			break
-		}
-	}
-}
+func (c *nilValReturnChecker) VisitStmt(stmt ast.Stmt) { _ = "STUB: not implemented"; return }
 
-func (c *nilValReturnChecker) warn(cause, val ast.Node) {
-	c.ctx.Warn(cause, "returned expr is always nil; replace %s with nil", val)
-}
+func (c *nilValReturnChecker) warn(cause, val ast.Node) { _ = "STUB: not implemented"; return }

@@ -2,13 +2,9 @@ package checkers
 
 import (
 	"go/ast"
-	"go/types"
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
-
-	"github.com/go-toolsmith/astcast"
-	"github.com/go-toolsmith/astp"
 )
 
 func init() {
@@ -43,86 +39,35 @@ type underefChecker struct {
 	skipRecvDeref bool
 }
 
-func (c *underefChecker) VisitExpr(expr ast.Expr) {
-	switch n := expr.(type) {
-	case *ast.SelectorExpr:
-		expr := astcast.ToParenExpr(n.X)
-		if c.skipRecvDeref && c.isPtrRecvMethodCall(n.Sel) {
-			return
-		}
-
-		if expr, ok := expr.X.(*ast.StarExpr); ok {
-			if c.checkStarExpr(expr) {
-				c.warnSelect(n)
-			}
-		}
-	case *ast.IndexExpr:
-		expr := astcast.ToParenExpr(n.X)
-		if expr, ok := expr.X.(*ast.StarExpr); ok {
-			if !c.checkStarExpr(expr) {
-				return
-			}
-			if c.checkArray(expr) {
-				c.warnArray(n)
-			}
-		}
-	}
-}
+func (c *underefChecker) VisitExpr(expr ast.Expr) { _ = "STUB: not implemented"; return }
 
 func (c *underefChecker) isPtrRecvMethodCall(fn *ast.Ident) bool {
-	typ, ok := c.ctx.TypeOf(fn).(*types.Signature)
-	if ok && typ != nil && typ.Recv() != nil {
-		_, ok := typ.Recv().Type().(*types.Pointer)
-		return ok
-	}
+	_ = "STUB: not implemented"
 	return false
 }
 
 func (c *underefChecker) underef(x *ast.ParenExpr) ast.Expr {
+	_ = "STUB: not implemented"
 	// If there is only 1 deref, can remove parenthesis,
 	// otherwise can remove StarExpr only.
-	dereferenced := x.X.(*ast.StarExpr).X
-	if astp.IsStarExpr(dereferenced) {
-		return &ast.ParenExpr{X: dereferenced}
-	}
-	return dereferenced
+	return *new(ast.Expr)
 }
 
 func (c *underefChecker) warnSelect(expr *ast.SelectorExpr) {
+	_ = "STUB: not implemented"
 	// TODO: add () to function output.
-	c.ctx.Warn(expr, "could simplify %s to %s.%s",
-		expr,
-		c.underef(expr.X.(*ast.ParenExpr)),
-		expr.Sel.Name)
+	return
 }
 
-func (c *underefChecker) warnArray(expr *ast.IndexExpr) {
-	c.ctx.Warn(expr, "could simplify %s to %s[%s]",
-		expr,
-		c.underef(expr.X.(*ast.ParenExpr)),
-		expr.Index)
-}
+func (c *underefChecker) warnArray(expr *ast.IndexExpr) { _ = "STUB: not implemented"; return }
 
 // checkStarExpr checks if ast.StarExpr could be simplified.
 func (c *underefChecker) checkStarExpr(expr *ast.StarExpr) bool {
-	typ, ok := c.ctx.TypeOf(expr.X).Underlying().(*types.Pointer)
-	if !ok {
-		return false
-	}
-
-	switch typ.Elem().Underlying().(type) {
-	case *types.Pointer, *types.Interface:
-		return false
-	default:
-		return true
-	}
+	_ = "STUB: not implemented"
+	return false
 }
 
 func (c *underefChecker) checkArray(expr *ast.StarExpr) bool {
-	typ, ok := c.ctx.TypeOf(expr.X).(*types.Pointer)
-	if !ok {
-		return false
-	}
-	_, ok = typ.Elem().(*types.Array)
-	return ok
+	_ = "STUB: not implemented"
+	return false
 }

@@ -4,8 +4,6 @@ import (
 	"go/ast"
 	"go/token"
 	"go/types"
-	"strconv"
-	"strings"
 
 	"github.com/go-toolsmith/astfmt"
 )
@@ -46,11 +44,8 @@ type CheckerCollection struct {
 // If checker is never needed, for example if it is disabled,
 // constructor will not be called.
 func (coll *CheckerCollection) AddChecker(info *CheckerInfo, constructor func(*CheckerContext) (FileWalker, error)) {
-	if coll == nil {
-		panic("adding checker to a nil collection")
-	}
-	info.Collection = coll
-	addChecker(info, constructor)
+	_ = "STUB: not implemented"
+	return
 }
 
 // CheckerParam describes a single checker customizable parameter.
@@ -74,13 +69,13 @@ type CheckerParam struct {
 type CheckerParams map[string]*CheckerParam
 
 // Int lookups pname key in underlying map and type-asserts it to int.
-func (params CheckerParams) Int(pname string) int { return params[pname].Value.(int) }
+func (params CheckerParams) Int(pname string) int { _ = "STUB: not implemented"; return 0 }
 
 // Bool lookups pname key in underlying map and type-asserts it to bool.
-func (params CheckerParams) Bool(pname string) bool { return params[pname].Value.(bool) }
+func (params CheckerParams) Bool(pname string) bool { _ = "STUB: not implemented"; return false }
 
 // String lookups pname key in underlying map and type-asserts it to string.
-func (params CheckerParams) String(pname string) string { return params[pname].Value.(string) }
+func (params CheckerParams) String(pname string) string { _ = "STUB: not implemented"; return "" }
 
 // CheckerInfo holds checker metadata and structured documentation.
 type CheckerInfo struct {
@@ -122,19 +117,10 @@ type CheckerInfo struct {
 // The slice is sorted by a checker name.
 //
 // Info objects can be used to instantiate checkers with NewChecker function.
-func GetCheckersInfo() []*CheckerInfo {
-	return getCheckersInfo()
-}
+func GetCheckersInfo() []*CheckerInfo { _ = "STUB: not implemented"; return nil }
 
 // HasTag reports whether checker described by the info has specified tag.
-func (info *CheckerInfo) HasTag(tag string) bool {
-	for i := range info.Tags {
-		if info.Tags[i] == tag {
-			return true
-		}
-	}
-	return false
-}
+func (info *CheckerInfo) HasTag(tag string) bool { _ = "STUB: not implemented"; return false }
 
 // Checker is an implementation of a check that is described by the associated info.
 type Checker struct {
@@ -151,15 +137,13 @@ type Checker struct {
 // Returns an error if info describes a checker that was not properly registered,
 // or if checker fails to initialize.
 func NewChecker(ctx *Context, info *CheckerInfo) (*Checker, error) {
-	return newChecker(ctx, info)
+	_ = "STUB: not implemented"
+	return nil, nil
+
+	// Check runs rule checker over file f.
 }
 
-// Check runs rule checker over file f.
-func (c *Checker) Check(f *ast.File) []Warning {
-	c.ctx.warnings = c.ctx.warnings[:0]
-	c.fileWalker.WalkFile(f)
-	return c.ctx.warnings
-}
+func (c *Checker) Check(f *ast.File) []Warning { _ = "STUB: not implemented"; return nil }
 
 // QuickFix is our analysis.TextEdit; we're using it here to avoid
 // direct analysis package dependency for now.
@@ -186,9 +170,7 @@ type Warning struct {
 }
 
 // HasQuickFix reports whether this warning has a suggested fix.
-func (warn Warning) HasQuickFix() bool {
-	return warn.Suggestion.Replacement != nil
-}
+func (warn Warning) HasQuickFix() bool { _ = "STUB: not implemented"; return false }
 
 // Context is a readonly state shared among every checker.
 type Context struct {
@@ -236,11 +218,8 @@ type Context struct {
 // All data carried by the context is readonly for checkers,
 // but can be modified by the integrating application.
 func NewContext(fset *token.FileSet, sizes types.Sizes) *Context {
-	return &Context{
-		FileSet:   fset,
-		SizesInfo: sizes,
-		TypesInfo: &types.Info{},
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SetGoVersion adjust the target Go language version.
@@ -252,39 +231,24 @@ func NewContext(fset *token.FileSet, sizes types.Sizes) *Context {
 // Go version assumptions and (like go-critic does) behave
 // like all features are available. To make go-critic
 // more conservative, the upper Go version level should be adjusted.
-func (c *Context) SetGoVersion(version string) {
-	v, err := ParseGoVersion(version)
-	if err != nil {
-		panic(err)
-	}
-	c.GoVersion = v
-}
+func (c *Context) SetGoVersion(version string) { _ = "STUB: not implemented"; return }
 
 // SetPackageInfo sets package-related metadata.
 //
 // Must be called for every package being checked.
 func (c *Context) SetPackageInfo(info *types.Info, pkg *types.Package) {
-	if info != nil {
-		// We do this kind of assignment to avoid
-		// changing c.typesInfo field address after
-		// every re-assignment.
-		*c.TypesInfo = *info
-	}
-	c.Pkg = pkg
+	_ = "STUB: not implemented"
+
+	// We do this kind of assignment to avoid
+	// changing c.typesInfo field address after
+	// every re-assignment.
+	return
 }
 
 // SetFileInfo sets file-related metadata.
 //
 // Must be called for every source code file being checked.
-func (c *Context) SetFileInfo(name string, f *ast.File) {
-	c.Filename = name
-	if c.Require.PkgObjects {
-		resolvePkgObjects(c, f)
-	}
-	if c.Require.PkgRenames {
-		resolvePkgRenames(c, f)
-	}
-}
+func (c *Context) SetFileInfo(name string, f *ast.File) { _ = "STUB: not implemented"; return }
 
 // CheckerContext is checker-local context copy.
 // Fields that are not from Context itself are writeable.
@@ -299,29 +263,26 @@ type CheckerContext struct {
 
 // Warn adds a Warning to checker output.
 func (ctx *CheckerContext) Warn(node ast.Node, format string, args ...interface{}) {
-	ctx.WarnWithPos(node.Pos(), format, args...)
+	_ = "STUB: not implemented"
+	return
 }
 
 // WarnFixable emits a warning with a fix suggestion provided by the caller.
 func (ctx *CheckerContext) WarnFixable(node ast.Node, fix QuickFix, format string, args ...interface{}) {
-	ctx.WarnFixableWithPos(node.Pos(), fix, format, args...)
+	_ = "STUB: not implemented"
+	return
 }
 
 // WarnWithPos adds a Warning to checker output. Useful for ruleguard's Report func.
 func (ctx *CheckerContext) WarnWithPos(pos token.Pos, format string, args ...interface{}) {
-	ctx.warnings = append(ctx.warnings, Warning{
-		Text: ctx.printer.Sprintf(format, args...),
-		Pos:  pos,
-	})
+	_ = "STUB: not implemented"
+	return
 }
 
 // WarnFixableWithPos adds a Warning to checker output. Useful for ruleguard's Report func.
 func (ctx *CheckerContext) WarnFixableWithPos(pos token.Pos, fix QuickFix, format string, args ...interface{}) {
-	ctx.warnings = append(ctx.warnings, Warning{
-		Text:       ctx.printer.Sprintf(format, args...),
-		Pos:        pos,
-		Suggestion: fix,
-	})
+	_ = "STUB: not implemented"
+	return
 }
 
 // TypeOf returns the type of expression x.
@@ -329,73 +290,31 @@ func (ctx *CheckerContext) WarnFixableWithPos(pos token.Pos, fix QuickFix, forma
 // Unlike TypesInfo.TypeOf, it never returns nil.
 // Instead, it returns the Invalid type as a sentinel UnknownType value.
 func (ctx *CheckerContext) TypeOf(x ast.Expr) types.Type {
-	typ := ctx.TypesInfo.TypeOf(x)
-	if typ != nil {
-		return typ
-	}
-	// Usually it means that some incorrect type info was loaded
-	// or the analyzed package was only partially (?) correct.
-	// To avoid nil pointer panics we can return a sentinel value
-	// that will fail most type assertions as well as kind checks
-	// (if the call side expects a *types.Basic).
-	return UnknownType
+	_ = "STUB: not implemented"
+	return *new(types.Type)
 }
+
+// Usually it means that some incorrect type info was loaded
+// or the analyzed package was only partially (?) correct.
+// To avoid nil pointer panics we can return a sentinel value
+// that will fail most type assertions as well as kind checks
+// (if the call side expects a *types.Basic).
 
 // SizeOf returns the size of the typ in bytes.
 //
 // Unlike SizesInfo.SizeOf, it will not panic on generic types.
 func (ctx *CheckerContext) SizeOf(typ types.Type) (int64, bool) {
-	if _, ok := typ.(*types.TypeParam); ok {
-		return 0, false
-	}
-	if named, ok := typ.(*types.Named); ok && named.TypeParams() != nil {
-		return 0, false
-	}
-	return ctx.safeSizesInfoSizeof(typ)
+	_ = "STUB: not implemented"
+	return 0, false
 }
 
 // safeSizesInfoSizeof unlike SizesInfo.Sizeof will not panic on struct with generic fields.
 // it will catch a panic and recover from it, see https://github.com/go-critic/go-critic/issues/1354
 func (ctx *CheckerContext) safeSizesInfoSizeof(typ types.Type) (size int64, ok bool) {
-	ok = true
-	defer func() {
-		if r := recover(); r != nil {
-			if strings.Contains(r.(string), "assertion failed") {
-				size, ok = 0, false
-			} else {
-				panic(r)
-			}
-		}
-	}()
-
-	size = ctx.SizesInfo.Sizeof(typ)
-	return size, ok
+	_ = "STUB: not implemented"
+	return 0, false
 }
 
-func resolvePkgObjects(ctx *Context, f *ast.File) {
-	ctx.PkgObjects = make(map[*types.PkgName]string, len(f.Imports))
+func resolvePkgObjects(ctx *Context, f *ast.File) { _ = "STUB: not implemented"; return }
 
-	for _, spec := range f.Imports {
-		if spec.Name != nil {
-			obj := ctx.TypesInfo.ObjectOf(spec.Name)
-			ctx.PkgObjects[obj.(*types.PkgName)] = spec.Name.Name
-		} else {
-			obj := ctx.TypesInfo.Implicits[spec]
-			ctx.PkgObjects[obj.(*types.PkgName)] = obj.Name()
-		}
-	}
-}
-
-func resolvePkgRenames(ctx *Context, f *ast.File) {
-	ctx.PkgRenames = make(map[string]string)
-
-	for _, spec := range f.Imports {
-		if spec.Name != nil {
-			path, err := strconv.Unquote(spec.Path.Value)
-			if err != nil {
-				panic(err)
-			}
-			ctx.PkgRenames[path] = spec.Name.Name
-		}
-	}
-}
+func resolvePkgRenames(ctx *Context, f *ast.File) { _ = "STUB: not implemented"; return }

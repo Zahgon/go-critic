@@ -2,7 +2,6 @@ package checkers
 
 import (
 	"go/ast"
-	"go/constant"
 	"regexp"
 	"strings"
 
@@ -44,25 +43,9 @@ type regexpPatternChecker struct {
 	domainRE *regexp.Regexp
 }
 
-func (c *regexpPatternChecker) VisitExpr(x ast.Expr) {
-	call, ok := x.(*ast.CallExpr)
-	if !ok {
-		return
-	}
-
-	switch qualifiedName(call.Fun) {
-	case "regexp.Compile", "regexp.CompilePOSIX", "regexp.MustCompile", "regexp.MustCompilePosix":
-		cv := c.ctx.TypesInfo.Types[call.Args[0]].Value
-		if cv == nil || cv.Kind() != constant.String {
-			return
-		}
-		s := constant.StringVal(cv)
-		if m := c.domainRE.FindStringSubmatch(s); m != nil {
-			c.warnDomain(call.Args[0], m[1])
-		}
-	}
-}
+func (c *regexpPatternChecker) VisitExpr(x ast.Expr) { _ = "STUB: not implemented"; return }
 
 func (c *regexpPatternChecker) warnDomain(cause ast.Expr, domain string) {
-	c.ctx.Warn(cause, "'.%s' should probably be '\\.%s'", domain, domain)
+	_ = "STUB: not implemented"
+	return
 }

@@ -26,11 +26,8 @@ type builtinShadowChecker struct {
 }
 
 func (c *builtinShadowChecker) VisitLocalDef(name astwalk.Name, _ ast.Expr) {
-	if isBuiltin(name.ID.Name) {
-		c.warn(name.ID)
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
-func (c *builtinShadowChecker) warn(ident *ast.Ident) {
-	c.ctx.Warn(ident, "shadowing of predeclared identifier: %s", ident)
-}
+func (c *builtinShadowChecker) warn(ident *ast.Ident) { _ = "STUB: not implemented"; return }

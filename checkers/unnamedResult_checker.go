@@ -36,68 +36,18 @@ type unnamedResultChecker struct {
 	checkExported bool
 }
 
-func (c *unnamedResultChecker) VisitFuncDecl(decl *ast.FuncDecl) {
-	if c.checkExported && !ast.IsExported(decl.Name.Name) {
-		return
-	}
-	results := decl.Type.Results
-	switch {
-	case results == nil:
-		return // Function has no results
-	case len(results.List) != 0 && results.List[0].Names != nil:
-		return // Skip named results
-	}
+func (c *unnamedResultChecker) VisitFuncDecl(decl *ast.FuncDecl) { _ = "STUB: not implemented"; return }
 
-	typeName := func(x ast.Expr) string { return c.typeName(c.ctx.TypeOf(x)) }
-	isError := func(x ast.Expr) bool { return qualifiedName(x) == "error" }
-	isBool := func(x ast.Expr) bool { return qualifiedName(x) == "bool" }
+// Function has no results
 
-	// Main difference with case of len=2 is that we permit any
-	// typ1 as long as second type is either error or bool.
-	if results.NumFields() == 2 {
-		typ1, typ2 := results.List[0].Type, results.List[1].Type
-		name1, name2 := typeName(typ1), typeName(typ2)
-		cond := (name1 != name2 && name2 != "") ||
-			(!isError(typ1) && isError(typ2)) ||
-			(!isBool(typ1) && isBool(typ2))
-		if !cond {
-			c.warn(decl)
-		}
-		return
-	}
+// Skip named results
 
-	seen := make(map[string]bool, len(results.List))
-	for i := range results.List {
-		typ := results.List[i].Type
-		name := typeName(typ)
-		isLast := i == len(results.List)-1
-
-		cond := !seen[name] ||
-			(isLast && (isError(typ) || isBool(typ)))
-		if !cond {
-			c.warn(decl)
-			return
-		}
-
-		seen[name] = true
-	}
-}
+// Main difference with case of len=2 is that we permit any
+// typ1 as long as second type is either error or bool.
 
 func (c *unnamedResultChecker) typeName(typ types.Type) string {
-	switch typ := typ.(type) {
-	case *types.Array:
-		return c.typeName(typ.Elem())
-	case *types.Pointer:
-		return c.typeName(typ.Elem())
-	case *types.Slice:
-		return c.typeName(typ.Elem())
-	case *types.Named:
-		return typ.Obj().Name()
-	default:
-		return ""
-	}
+	_ = "STUB: not implemented"
+	return ""
 }
 
-func (c *unnamedResultChecker) warn(n ast.Node) {
-	c.ctx.Warn(n, "consider giving a name to these results")
-}
+func (c *unnamedResultChecker) warn(n ast.Node) { _ = "STUB: not implemented"; return }

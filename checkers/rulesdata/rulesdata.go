@@ -2578,4 +2578,3 @@ var PrecompiledRules = &ir.File{
 		},
 	},
 }
-

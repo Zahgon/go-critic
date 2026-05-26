@@ -2,12 +2,9 @@ package checkers
 
 import (
 	"go/ast"
-	"go/token"
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
-
-	"golang.org/x/tools/go/ast/astutil"
 )
 
 func init() {
@@ -35,51 +32,18 @@ type singleCaseSwitchChecker struct {
 	ctx *linter.CheckerContext
 }
 
-func (c *singleCaseSwitchChecker) VisitStmt(stmt ast.Stmt) {
-	switch stmt := stmt.(type) {
-	case *ast.SwitchStmt:
-		c.checkSwitchStmt(stmt, stmt.Body)
-	case *ast.TypeSwitchStmt:
-		c.checkSwitchStmt(stmt, stmt.Body)
-	}
-}
+func (c *singleCaseSwitchChecker) VisitStmt(stmt ast.Stmt) { _ = "STUB: not implemented"; return }
 
 func (c *singleCaseSwitchChecker) checkSwitchStmt(stmt ast.Stmt, body *ast.BlockStmt) {
-	if len(body.List) != 1 {
-		return
-	}
-	cc := body.List[0].(*ast.CaseClause)
-	if c.hasBreak(cc) {
-		return
-	}
-	switch {
-	case cc.List == nil:
-		c.warnDefault(stmt)
-	case len(cc.List) == 1:
-		c.warn(stmt)
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 func (c *singleCaseSwitchChecker) hasBreak(stmt ast.Stmt) bool {
-	found := false
-	astutil.Apply(stmt, func(cur *astutil.Cursor) bool {
-		switch n := cur.Node().(type) {
-		case *ast.BranchStmt:
-			if n.Tok == token.BREAK {
-				found = true
-			}
-		case *ast.ForStmt, *ast.RangeStmt, *ast.SelectStmt, *ast.SwitchStmt:
-			return false
-		}
-		return true
-	}, nil)
-	return found
+	_ = "STUB: not implemented"
+	return false
 }
 
-func (c *singleCaseSwitchChecker) warn(stmt ast.Stmt) {
-	c.ctx.Warn(stmt, "should rewrite switch statement to if statement")
-}
+func (c *singleCaseSwitchChecker) warn(stmt ast.Stmt) { _ = "STUB: not implemented"; return }
 
-func (c *singleCaseSwitchChecker) warnDefault(stmt ast.Stmt) {
-	c.ctx.Warn(stmt, "found switch with default case only")
-}
+func (c *singleCaseSwitchChecker) warnDefault(stmt ast.Stmt) { _ = "STUB: not implemented"; return }

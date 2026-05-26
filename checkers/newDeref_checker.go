@@ -2,14 +2,9 @@ package checkers
 
 import (
 	"go/ast"
-	"go/types"
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
-	"github.com/go-critic/go-critic/checkers/internal/lintutil"
 	"github.com/go-critic/go-critic/linter"
-
-	"github.com/go-toolsmith/astcast"
-	"golang.org/x/tools/go/ast/astutil"
 )
 
 func init() {
@@ -30,22 +25,8 @@ type newDerefChecker struct {
 	ctx *linter.CheckerContext
 }
 
-func (c *newDerefChecker) VisitExpr(expr ast.Expr) {
-	deref := astcast.ToStarExpr(expr)
-	call := astcast.ToCallExpr(deref.X)
-	if astcast.ToIdent(call.Fun).Name == "new" {
-		typ := c.ctx.TypeOf(call.Args[0])
-		// allow *new(T) if T is a type parameter, see #1272 for details
-		if _, ok := typ.(*types.TypeParam); ok {
-			return
-		}
-		zv := lintutil.ZeroValueOf(astutil.Unparen(call.Args[0]), typ)
-		if zv != nil {
-			c.warn(expr, zv)
-		}
-	}
-}
+func (c *newDerefChecker) VisitExpr(expr ast.Expr) { _ = "STUB: not implemented"; return }
 
-func (c *newDerefChecker) warn(cause, suggestion ast.Expr) {
-	c.ctx.Warn(cause, "replace `%s` with `%s`", cause, suggestion)
-}
+// allow *new(T) if T is a type parameter, see #1272 for details
+
+func (c *newDerefChecker) warn(cause, suggestion ast.Expr) { _ = "STUB: not implemented"; return }

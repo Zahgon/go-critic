@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"log"
 	"os"
-	"strings"
 	"text/template"
 
 	"github.com/go-critic/go-critic/checkers"
@@ -44,13 +43,4 @@ func main() {
 	}
 }
 
-func parseTemplate(names ...string) *template.Template {
-	paths := make([]string, len(names))
-	for i := range names {
-		paths[i] = templatesPath + names[i]
-	}
-	funcMap := template.FuncMap{
-		"ToLower": strings.ToLower,
-	}
-	return template.Must(template.New("overview").Funcs(funcMap).ParseFiles(paths...))
-}
+func parseTemplate(names ...string) *template.Template { _ = "STUB: not implemented"; return nil }

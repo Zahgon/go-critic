@@ -5,8 +5,6 @@ import (
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
-
-	"github.com/go-toolsmith/astcast"
 )
 
 func init() {
@@ -39,46 +37,18 @@ type hugeParamChecker struct {
 }
 
 func (c *hugeParamChecker) VisitFuncDecl(decl *ast.FuncDecl) {
+	_ = "STUB: not implemented"
 	// TODO(quasilyte): maybe it's worthwhile to permit skipping
 	// test files for this checker?
-	if c.isImplementStringer(decl) {
-		return
-	}
-
-	if decl.Recv != nil {
-		c.checkParams(decl.Recv.List)
-	}
-	c.checkParams(decl.Type.Params.List)
+	return
 }
 
 // isImplementStringer check method signature is: String() string.
 func (*hugeParamChecker) isImplementStringer(decl *ast.FuncDecl) bool {
-	if decl.Recv != nil &&
-		decl.Name.Name == "String" &&
-		decl.Type != nil &&
-		len(decl.Type.Params.List) == 0 &&
-		decl.Type.Results != nil &&
-		len(decl.Type.Results.List) == 1 &&
-		astcast.ToIdent(decl.Type.Results.List[0].Type).Name == "string" {
-		return true
-	}
-
+	_ = "STUB: not implemented"
 	return false
 }
 
-func (c *hugeParamChecker) checkParams(params []*ast.Field) {
-	for _, p := range params {
-		for _, id := range p.Names {
-			typ := c.ctx.TypeOf(id)
-			size, ok := c.ctx.SizeOf(typ)
-			if ok && size >= c.sizeThreshold {
-				c.warn(id, size)
-			}
-		}
-	}
-}
+func (c *hugeParamChecker) checkParams(params []*ast.Field) { _ = "STUB: not implemented"; return }
 
-func (c *hugeParamChecker) warn(cause *ast.Ident, size int64) {
-	c.ctx.Warn(cause, "%s is heavy (%d bytes); consider passing it by pointer",
-		cause, size)
-}
+func (c *hugeParamChecker) warn(cause *ast.Ident, size int64) { _ = "STUB: not implemented"; return }

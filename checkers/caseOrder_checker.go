@@ -2,7 +2,6 @@ package checkers
 
 import (
 	"go/ast"
-	"go/types"
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
@@ -38,51 +37,28 @@ type caseOrderChecker struct {
 	ctx *linter.CheckerContext
 }
 
-func (c *caseOrderChecker) VisitStmt(stmt ast.Stmt) {
-	switch stmt := stmt.(type) {
-	case *ast.TypeSwitchStmt:
-		c.checkTypeSwitch(stmt)
-	case *ast.SwitchStmt:
-		c.checkSwitch(stmt)
-	}
-}
+func (c *caseOrderChecker) VisitStmt(stmt ast.Stmt) { _ = "STUB: not implemented"; return }
 
 func (c *caseOrderChecker) checkTypeSwitch(s *ast.TypeSwitchStmt) {
-	type ifaceType struct {
-		node ast.Node
-		typ  *types.Interface
-	}
-	var ifaces []ifaceType // Interfaces seen so far
-	for _, cc := range s.Body.List {
-		cc := cc.(*ast.CaseClause)
-		for _, x := range cc.List {
-			typ := c.ctx.TypeOf(x)
-			if typ == linter.UnknownType {
-				c.warnUnknownType(cc, x)
-				return
-			}
-			for _, iface := range ifaces {
-				if types.Implements(typ, iface.typ) {
-					c.warnTypeSwitch(cc, x, iface.node)
-					break
-				}
-			}
-			if iface, ok := typ.Underlying().(*types.Interface); ok {
-				ifaces = append(ifaces, ifaceType{node: x, typ: iface})
-			}
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
+// Interfaces seen so far
+
 func (c *caseOrderChecker) warnTypeSwitch(cause, concrete, iface ast.Node) {
-	c.ctx.Warn(cause, "case %s must go before the %s case", concrete, iface)
+	_ = "STUB: not implemented"
+	return
 }
 
 func (c *caseOrderChecker) warnUnknownType(cause, concrete ast.Node) {
-	c.ctx.Warn(cause, "type is not defined %s", concrete)
+	_ = "STUB: not implemented"
+	return
 }
 
 func (c *caseOrderChecker) checkSwitch(_ *ast.SwitchStmt) {
+	_ = "STUB: not implemented"
 	// TODO(quasilyte): can handle expression cases that overlap.
 	// Cases that have narrower value range should go before wider ones.
+	return
 }

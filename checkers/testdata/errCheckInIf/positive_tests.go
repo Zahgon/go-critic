@@ -43,8 +43,8 @@ func warning2() {
 		print(err)
 	}
 
-    /*! returned error 'err' must be checked */
-    if _, err := d.boo2(); err2 != nil {
+	/*! returned error 'err' must be checked */
+	if _, err := d.boo2(); err2 != nil {
 		print(err)
 	}
 
@@ -53,8 +53,8 @@ func warning2() {
 	if err = d.boo(); err2 != nil {
 	}
 
-    /*! returned error 'err' must be checked */
-    if _, err = d.boo2(); err2 != nil {
+	/*! returned error 'err' must be checked */
+	if _, err = d.boo2(); err2 != nil {
 	}
 
 	print(err)

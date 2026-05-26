@@ -8,50 +8,60 @@ import (
 
 // WalkerForFuncDecl returns file walker implementation for FuncDeclVisitor.
 func WalkerForFuncDecl(v FuncDeclVisitor) linter.FileWalker {
-	return &funcDeclWalker{visitor: v}
+	_ = "STUB: not implemented"
+	return *new(linter.FileWalker)
 }
 
 // WalkerForExpr returns file walker implementation for ExprVisitor.
 func WalkerForExpr(v ExprVisitor) linter.FileWalker {
-	return &exprWalker{visitor: v}
+	_ = "STUB: not implemented"
+	return *new(linter.FileWalker)
 }
 
 // WalkerForLocalExpr returns file walker implementation for LocalExprVisitor.
 func WalkerForLocalExpr(v LocalExprVisitor) linter.FileWalker {
-	return &localExprWalker{visitor: v}
+	_ = "STUB: not implemented"
+	return *new(linter.FileWalker)
 }
 
 // WalkerForStmtList returns file walker implementation for StmtListVisitor.
 func WalkerForStmtList(v StmtListVisitor) linter.FileWalker {
-	return &stmtListWalker{visitor: v}
+	_ = "STUB: not implemented"
+	return *new(linter.FileWalker)
 }
 
 // WalkerForStmt returns file walker implementation for StmtVisitor.
 func WalkerForStmt(v StmtVisitor) linter.FileWalker {
-	return &stmtWalker{visitor: v}
+	_ = "STUB: not implemented"
+	return *new(linter.FileWalker)
 }
 
 // WalkerForTypeExpr returns file walker implementation for TypeExprVisitor.
 func WalkerForTypeExpr(v TypeExprVisitor, info *types.Info) linter.FileWalker {
-	return &typeExprWalker{visitor: v, info: info}
+	_ = "STUB: not implemented"
+	return *new(linter.FileWalker)
 }
 
 // WalkerForLocalComment returns file walker implementation for LocalCommentVisitor.
 func WalkerForLocalComment(v LocalCommentVisitor) linter.FileWalker {
-	return &localCommentWalker{visitor: v}
+	_ = "STUB: not implemented"
+	return *new(linter.FileWalker)
 }
 
 // WalkerForComment returns file walker implementation for CommentVisitor.
 func WalkerForComment(v CommentVisitor) linter.FileWalker {
-	return &commentWalker{visitor: v}
+	_ = "STUB: not implemented"
+	return *new(linter.FileWalker)
 }
 
 // WalkerForDocComment returns file walker implementation for DocCommentVisitor.
 func WalkerForDocComment(v DocCommentVisitor) linter.FileWalker {
-	return &docCommentWalker{visitor: v}
+	_ = "STUB: not implemented"
+	return *new(linter.FileWalker)
 }
 
 // WalkerForLocalDef returns file walker implementation for LocalDefVisitor.
 func WalkerForLocalDef(v LocalDefVisitor, info *types.Info) linter.FileWalker {
-	return &localDefWalker{visitor: v, info: info}
+	_ = "STUB: not implemented"
+	return *new(linter.FileWalker)
 }

@@ -2,15 +2,10 @@ package checkers
 
 import (
 	"go/ast"
-	"go/token"
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/checkers/internal/lintutil"
 	"github.com/go-critic/go-critic/linter"
-
-	"github.com/go-toolsmith/astcast"
-	"github.com/go-toolsmith/astequal"
-	"github.com/go-toolsmith/astp"
 )
 
 func init() {
@@ -51,83 +46,32 @@ type typeAssertChainChecker struct {
 }
 
 func (c *typeAssertChainChecker) EnterFunc(fn *ast.FuncDecl) bool {
-	if fn.Body == nil {
-		return false
-	}
-	c.visited = make(map[*ast.IfStmt]bool)
-	return true
+	_ = "STUB: not implemented"
+	return false
 }
 
-func (c *typeAssertChainChecker) VisitStmt(stmt ast.Stmt) {
-	ifstmt, ok := stmt.(*ast.IfStmt)
-	if !ok || c.visited[ifstmt] || ifstmt.Init == nil {
-		return
-	}
-	assertion := c.getTypeAssert(ifstmt)
-	if assertion == nil {
-		return
-	}
-	c.cause = ifstmt
-	c.checkIfStmt(ifstmt, assertion)
-}
+func (c *typeAssertChainChecker) VisitStmt(stmt ast.Stmt) { _ = "STUB: not implemented"; return }
 
 func (c *typeAssertChainChecker) getTypeAssert(ifstmt *ast.IfStmt) *ast.TypeAssertExpr {
-	assign := astcast.ToAssignStmt(ifstmt.Init)
-	if len(assign.Lhs) != 2 || len(assign.Rhs) != 1 {
-		return nil
-	}
-	if !astp.IsIdent(assign.Lhs[0]) || assign.Tok != token.DEFINE {
-		return nil
-	}
-	if !astequal.Expr(assign.Lhs[1], ifstmt.Cond) {
-		return nil
-	}
-
-	assertion, ok := assign.Rhs[0].(*ast.TypeAssertExpr)
-	if !ok {
-		return nil
-	}
-	return assertion
+	_ = "STUB: not implemented"
+	return nil
 }
 
 func (c *typeAssertChainChecker) checkIfStmt(stmt *ast.IfStmt, assertion *ast.TypeAssertExpr) {
-	if c.countTypeAssertions(stmt, assertion) >= 2 {
-		c.warn()
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
 func (c *typeAssertChainChecker) countTypeAssertions(stmt *ast.IfStmt, assertion *ast.TypeAssertExpr) int {
-	c.typeSet.Clear()
-
-	count := 1
-	x := assertion.X
-	c.typeSet.Insert(assertion.Type)
-	for {
-		e, ok := stmt.Else.(*ast.IfStmt)
-		if !ok {
-			return count
-		}
-		assertion = c.getTypeAssert(e)
-		if assertion == nil {
-			return count
-		}
-		if !c.typeSet.Insert(assertion.Type) {
-			// Asserted type is duplicated.
-			// Type switch does not permit duplicate cases,
-			// so give up.
-			return 0
-		}
-		if !astequal.Expr(x, assertion.X) {
-			// Mixed type asserting chain.
-			// Can't be easily translated to a type switch.
-			return 0
-		}
-		stmt = e
-		count++
-		c.visited[e] = true
-	}
+	_ = "STUB: not implemented"
+	return 0
 }
 
-func (c *typeAssertChainChecker) warn() {
-	c.ctx.Warn(c.cause, "rewrite if-else to type switch statement")
-}
+// Asserted type is duplicated.
+// Type switch does not permit duplicate cases,
+// so give up.
+
+// Mixed type asserting chain.
+// Can't be easily translated to a type switch.
+
+func (c *typeAssertChainChecker) warn() { _ = "STUB: not implemented"; return }

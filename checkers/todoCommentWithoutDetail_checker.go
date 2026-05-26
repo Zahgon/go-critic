@@ -37,14 +37,8 @@ type todoCommentWithoutCodeChecker struct {
 }
 
 func (c *todoCommentWithoutCodeChecker) VisitComment(cg *ast.CommentGroup) {
-	for _, comment := range cg.List {
-		if c.regex.MatchString(comment.Text) {
-			c.warn(cg)
-			break
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }
 
-func (c *todoCommentWithoutCodeChecker) warn(cause ast.Node) {
-	c.ctx.Warn(cause, "may want to add detail/assignee to this TODO/FIXME/BUG comment")
-}
+func (c *todoCommentWithoutCodeChecker) warn(cause ast.Node) { _ = "STUB: not implemented"; return }

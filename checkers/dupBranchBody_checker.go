@@ -5,8 +5,6 @@ import (
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
-
-	"github.com/go-toolsmith/astequal"
 )
 
 func init() {
@@ -38,22 +36,12 @@ type dupBranchBodyChecker struct {
 }
 
 func (c *dupBranchBodyChecker) VisitStmt(stmt ast.Stmt) {
+	_ = "STUB: not implemented"
 	// TODO(quasilyte): extend to check switch statements as well.
 	// Should be very careful with type switches.
-
-	if stmt, ok := stmt.(*ast.IfStmt); ok {
-		c.checkIf(stmt)
-	}
+	return
 }
 
-func (c *dupBranchBodyChecker) checkIf(stmt *ast.IfStmt) {
-	thenBody := stmt.Body
-	elseBody, ok := stmt.Else.(*ast.BlockStmt)
-	if ok && astequal.Stmt(thenBody, elseBody) {
-		c.warnIf(stmt)
-	}
-}
+func (c *dupBranchBodyChecker) checkIf(stmt *ast.IfStmt) { _ = "STUB: not implemented"; return }
 
-func (c *dupBranchBodyChecker) warnIf(cause ast.Node) {
-	c.ctx.Warn(cause, "both branches in if statement have same body")
-}
+func (c *dupBranchBodyChecker) warnIf(cause ast.Node) { _ = "STUB: not implemented"; return }

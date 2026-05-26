@@ -73,6 +73,7 @@ type deprecatedCommentChecker struct {
 }
 
 func (c *deprecatedCommentChecker) VisitDocComment(doc *ast.CommentGroup) {
+	_ = "STUB: not implemented"
 	// There are 3 accepted forms of deprecation comments:
 	//
 	// 1. inline, that can't be handled with a DocCommentVisitor.
@@ -92,82 +93,34 @@ func (c *deprecatedCommentChecker) VisitDocComment(doc *ast.CommentGroup) {
 	// TODO(quasilyte): do more audits and grow the negative tests suite.
 	//
 	// TODO(quasilyte): there are also multi-line deprecation comments.
-
-	// prev stores the previous line after it was trimmed.
-	// It's used to check whether the deprecation prefix is at the beginning of a new paragraph.
-	var prev string
-
-	for _, comment := range doc.List {
-		if strings.HasPrefix(comment.Text, "/*") {
-			// TODO(quasilyte): handle multi-line doc comments.
-			continue
-		}
-		rawLine := strings.TrimPrefix(comment.Text, "//")
-		l := strings.TrimSpace(rawLine)
-		if len(rawLine) < len(deprecatedPrefix) {
-			prev = l
-			continue
-		}
-
-		// Check whether someone messed up with a prefix casing.
-		upcase := strings.ToUpper(l)
-		if strings.HasPrefix(upcase, "DEPRECATED: ") && !strings.HasPrefix(l, deprecatedPrefix) {
-			c.warnCasing(comment, l)
-			return
-		}
-
-		// Check is someone used comma instead of a colon.
-		if strings.HasPrefix(l, "Deprecated, ") {
-			c.warnComma(comment)
-			return
-		}
-
-		// Check for other commonly used patterns.
-		for _, pat := range c.commonPatterns {
-			if len(l) < len(pat) {
-				continue
-			}
-
-			if strings.EqualFold(l[:len(pat)], pat) {
-				c.warnPattern(comment)
-				return
-			}
-		}
-
-		// Detect some simple typos.
-		for _, prefixWithTypo := range c.commonTypos {
-			if strings.HasPrefix(upcase, prefixWithTypo) {
-				c.warnTypo(comment, l)
-				return
-			}
-		}
-
-		if strings.HasPrefix(l, deprecatedPrefix) && prev != "" {
-			c.warnParagraph(comment)
-			return
-		}
-		prev = l
-	}
+	return
 }
+
+// prev stores the previous line after it was trimmed.
+// It's used to check whether the deprecation prefix is at the beginning of a new paragraph.
+
+// TODO(quasilyte): handle multi-line doc comments.
+
+// Check whether someone messed up with a prefix casing.
+
+// Check is someone used comma instead of a colon.
+
+// Check for other commonly used patterns.
+
+// Detect some simple typos.
 
 func (c *deprecatedCommentChecker) warnCasing(cause ast.Node, line string) {
-	prefix := line[:len("DEPRECATED: ")]
-	c.ctx.Warn(cause, "use `Deprecated: ` (note the casing) instead of `%s`", prefix)
+	_ = "STUB: not implemented"
+	return
 }
 
-func (c *deprecatedCommentChecker) warnPattern(cause ast.Node) {
-	c.ctx.Warn(cause, "the proper format is `Deprecated: <text>`")
-}
+func (c *deprecatedCommentChecker) warnPattern(cause ast.Node) { _ = "STUB: not implemented"; return }
 
-func (c *deprecatedCommentChecker) warnComma(cause ast.Node) {
-	c.ctx.Warn(cause, "use `:` instead of `,` in `Deprecated, `")
-}
+func (c *deprecatedCommentChecker) warnComma(cause ast.Node) { _ = "STUB: not implemented"; return }
 
 func (c *deprecatedCommentChecker) warnTypo(cause ast.Node, line string) {
-	word := strings.Split(line, ":")[0]
-	c.ctx.Warn(cause, "typo in `%s`; should be `Deprecated`", word)
+	_ = "STUB: not implemented"
+	return
 }
 
-func (c *deprecatedCommentChecker) warnParagraph(cause ast.Node) {
-	c.ctx.Warn(cause, "`Deprecated: ` notices should be in a dedicated paragraph, separated from the rest")
-}
+func (c *deprecatedCommentChecker) warnParagraph(cause ast.Node) { _ = "STUB: not implemented"; return }

@@ -5,8 +5,6 @@ import (
 
 	"github.com/go-critic/go-critic/checkers/internal/astwalk"
 	"github.com/go-critic/go-critic/linter"
-
-	"github.com/go-toolsmith/astp"
 )
 
 func init() {
@@ -45,28 +43,8 @@ type elseifChecker struct {
 	skipBalanced bool
 }
 
-func (c *elseifChecker) VisitStmt(stmt ast.Stmt) {
-	if stmt, ok := stmt.(*ast.IfStmt); ok {
-		elseBody, ok := stmt.Else.(*ast.BlockStmt)
-		if !ok || len(elseBody.List) != 1 {
-			return
-		}
-		innerIfStmt, ok := elseBody.List[0].(*ast.IfStmt)
-		if !ok {
-			return
-		}
-		balanced := len(stmt.Body.List) == 1 &&
-			astp.IsIfStmt(stmt.Body.List[0])
-		if balanced && c.skipBalanced {
-			return // Configured to skip balanced statements
-		}
-		if innerIfStmt.Else != nil || innerIfStmt.Init != nil {
-			return
-		}
-		c.warn(stmt.Else)
-	}
-}
+func (c *elseifChecker) VisitStmt(stmt ast.Stmt) { _ = "STUB: not implemented"; return }
 
-func (c *elseifChecker) warn(cause ast.Node) {
-	c.ctx.Warn(cause, "can replace 'else {if cond {}}' with 'else if cond {}'")
-}
+// Configured to skip balanced statements
+
+func (c *elseifChecker) warn(cause ast.Node) { _ = "STUB: not implemented"; return }

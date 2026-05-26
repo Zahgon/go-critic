@@ -35,7 +35,7 @@ func NoWarningsCalc() {
 	_ = calculateInt(x)
 
 	_ = calculateHex(0x0)
-	_ = calculateHex(0X42)
+	_ = calculateHex(0x42)
 	_ = calculateHex(0xAA1)
 	_ = calculateHex(-0xaa1)
 

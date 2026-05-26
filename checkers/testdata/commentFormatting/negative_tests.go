@@ -1,4 +1,7 @@
-//nolint // reason
+//go:build ignore
+// +build ignore
+
+// nolint // reason
 package checker_test
 
 //nolint reason
@@ -12,7 +15,6 @@ are ignored
 */
 
 // Special kinds of comments are permitted:
-//+build
 //-foo
 
 //-style comments
@@ -36,7 +38,7 @@ func myfunc() {
 func example() {
 }
 
-//go-sumtype:decl Data
+// go-sumtype:decl Data
 type Data struct {
 }
 
@@ -64,12 +66,14 @@ func f2() {
 // Comment in a comment is //OK
 // path */*//with asterisk
 
-//region GoLand custom folding region
+// region GoLand custom folding region
 func goland() {
 }
+
 //endregion
 
-//<editor-fold desc="VSCode custom folding region">
+// <editor-fold desc="VSCode custom folding region">
 func vscode() {
 }
+
 //</editor-fold>
